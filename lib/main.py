@@ -1,236 +1,229 @@
 #!/usr/bin/env python3
 
+import sys
 from models.owner import Owner
 from models.pet import Pet
 from models.vaccine import Vaccine
-from db import database
 
-# Function to display menu and get user choice
+# Function to display menu
 def display_menu():
-    print("\nMenu:")
-    print("1. Manage Owners")
-    print("2. Manage Pets")
-    print("3. Manage Vaccines")
+    print("\nWelcome to Pet Vaccination Tracker!")
+    print("1. Owners Menu")
+    print("2. Pets Menu")
+    print("3. Vaccines Menu")
     print("4. Exit")
-    return input("Enter your choice: ").strip()
 
-# Function to handle owner management
-def manage_owners():
-    while True:
-        print("\nOwner Management:")
-        print("1. Add Owner")
-        print("2. Delete Owner")
-        print("3. Display All Owners")
-        print("4. View Owner's Pets")
-        print("5. Find Owner by Name")
-        print("6. Back to Main Menu")
-        choice = input("Enter your choice: ").strip()
+# Function to display owner menu
+def display_owner_menu():
+    print("\nOwners Menu:")
+    print("1. Create Owner")
+    print("2. Delete Owner")
+    print("3. Display All Owners")
+    print("4. Find Owner by Name")
+    print("5. Exit to Main Menu")
 
-        if choice == '1':
-            name = input("Enter owner name: ").strip()
-            owner = Owner(name)
-            owners.append(owner)
-            print(f"Owner '{name}' added successfully.")
-        elif choice == '2':
-            name = input("Enter owner name to delete: ").strip()
-            for owner in owners:
-                if owner.name == name:
-                    owners.remove(owner)
-                    print(f"Owner '{name}' deleted successfully.")
-                    break
-            else:
-                print(f"Owner '{name}' not found.")
-        elif choice == '3':
-            print("\nAll Owners:")
-            for owner in owners:
-                print(owner.name)
-        elif choice == '4':
-            name = input("Enter owner name to view pets: ").strip()
-            for owner in owners:
-                if owner.name == name:
-                    owner.display_info()
-                    break
-            else:
-                print(f"Owner '{name}' not found.")
-        elif choice == '5':
-            name = input("Enter owner name to find: ").strip()
-            for owner in owners:
-                if owner.name == name:
-                    print("Owner found:")
-                    print(owner.name)
-                    break
-            else:
-                print(f"Owner '{name}' not found.")
-        elif choice == '6':
-            break
-        else:
-            print("Invalid choice. Please try again.")
+# Function to display pet menu
+def display_pet_menu():
+    print("\nPets Menu:")
+    print("1. Create Pet")
+    print("2. Delete Pet")
+    print("3. Display All Pets")
+    print("4. Find Pet by Name")
+    print("5. Find Pets by Owner ID")
+    print("6. Exit to Main Menu")
 
-# Function to handle pet management
-def manage_pets():
-    while True:
-        print("\nPet Management:")
-        print("1. Add Pet")
-        print("2. Delete Pet")
-        print("3. Display All Pets")
-        print("4. View Pet's Vaccines")
-        print("5. Find Pet by Name")
-        print("6. Back to Main Menu")
-        choice = input("Enter your choice: ").strip()
+# Function to display vaccine menu
+def display_vaccine_menu():
+    print("\nVaccines Menu:")
+    print("1. Create Vaccine")
+    print("2. Delete Vaccine")
+    print("3. Display All Vaccines")
+    print("4. Find Vaccine by Type")
+    print("5. Find Vaccines by Pet ID")
+    print("6. Exit to Main Menu")
 
-        if choice == '1':
-            owner_name = input("Enter owner name for the pet: ").strip()
-            owner = next((owner for owner in owners if owner.name == owner_name), None)
+# Function to handle owner operations
+def handle_owner_operations(option):
+    if option == '1':  # Create Owner
+        name = input("Enter owner's name: ")
+        try:
+            owner = Owner.create(name)
+            print(f"Owner '{owner.name}' created with ID {owner.id}")
+        except ValueError as e:
+            print(f"Error: {e}")
+    elif option == '2':  # Delete Owner
+        owner_id = input("Enter owner ID to delete: ")
+        try:
+            owner_id = int(owner_id)
+            owner = Owner.find_by_id(owner_id)
             if owner:
-                name = input("Enter pet name: ").strip()
-                species = input("Enter species: ").strip()
-                breed = input("Enter breed: ").strip()
-                birthdate = input("Enter birthdate (YYYY-MM-DD): ").strip()
-                pet = Pet(name, species, breed, birthdate)
-                owner.add_pet(pet)
-                database.add_pet(name, species, breed, birthdate)
-                print(f"Pet '{name}' added successfully.")
+                owner.delete()
+                print(f"Owner '{owner.name}' with ID {owner_id} deleted successfully")
             else:
-                print(f"Owner '{owner_name}' not found.")
-        elif choice == '2':
-            pet_name = input("Enter pet name to delete: ").strip()
+                print(f"Owner with ID {owner_id} not found")
+        except ValueError:
+            print("Invalid owner ID")
+    elif option == '3':  # Display All Owners
+        owners = Owner.get_all()
+        if owners:
+            print("Owners:")
             for owner in owners:
-                for pet in owner.pets:
-                    if pet.name == pet_name:
-                        owner.pets.remove(pet)
-                        database.delete_pet(pet_name)
-                        print(f"Pet '{pet_name}' deleted successfully.")
-                        break
-                else:
-                    continue
-                break
-            else:
-                print(f"Pet '{pet_name}' not found.")
-        elif choice == '3':
-            print("\nAll Pets:")
-            for owner in owners:
-                for pet in owner.pets:
-                    print(f"{pet.name} (Owner: {owner.name})")
-        elif choice == '4':
-            pet_name = input("Enter pet name to view vaccines: ").strip()
-            for owner in owners:
-                for pet in owner.pets:
-                    if pet.name == pet_name:
-                        pet.display_info()
-                        break
-                else:
-                    continue
-                break
-            else:
-                print(f"Pet '{pet_name}' not found.")
-        elif choice == '5':
-            pet_name = input("Enter pet name to find: ").strip()
-            for owner in owners:
-                for pet in owner.pets:
-                    if pet.name == pet_name:
-                        print("Pet found:")
-                        print(pet.name)
-                        print("Owner:", owner.name)
-                        break
-                else:
-                    continue
-                break
-            else:
-                print(f"Pet '{pet_name}' not found.")
-        elif choice == '6':
-            break
+                print(f"ID: {owner.id}, Name: {owner.name}")
         else:
-            print("Invalid choice. Please try again.")
-
-# Function to handle vaccine management
-def manage_vaccines():
-    while True:
-        print("\nVaccine Management:")
-        print("1. Add Vaccine")
-        print("2. Delete Vaccine")
-        print("3. Display All Vaccines")
-        print("4. Find Vaccine by Type")
-        print("5. Back to Main Menu")
-        choice = input("Enter your choice: ").strip()
-
-        if choice == '1':
-            pet_name = input("Enter pet name for the vaccine: ").strip()
-            owner = next((owner for owner in owners if any(pet.name == pet_name for pet in owner.pets)), None)
-            if owner:
-                vaccine_type = input("Enter vaccine type: ").strip()
-                date_administered = input("Enter date administered (YYYY-MM-DD): ").strip()
-                next_due_date = input("Enter next due date (YYYY-MM-DD): ").strip()
-                vaccine = Vaccine(vaccine_type, date_administered, next_due_date)
-                for pet in owner.pets:
-                    if pet.name == pet_name:
-                        pet.add_vaccination(vaccine)
-                        database.record_vaccination(pet_name, vaccine_type, date_administered, next_due_date)
-                        print("Vaccine added successfully.")
-                        break
-            else:
-                print(f"Pet '{pet_name}' not found.")
-        elif choice == '2':
-            pet_name = input("Enter pet name for the vaccine to delete: ").strip()
-            owner = next((owner for owner in owners if any(pet.name == pet_name for pet in owner.pets)), None)
-            if owner:
-                vaccine_type = input("Enter vaccine type to delete: ").strip()
-                for pet in owner.pets:
-                    if pet.name == pet_name:
-                        for vaccine in pet.vaccinations:
-                            if vaccine.vaccine_type == vaccine_type:
-                                pet.vaccinations.remove(vaccine)
-                                database.delete_vaccination(pet_name, vaccine_type)
-                                print("Vaccine deleted successfully.")
-                                break
-                        else:
-                            print(f"Vaccine '{vaccine_type}' not found for pet '{pet_name}'.")
-                        break
-            else:
-                print(f"Pet '{pet_name}' not found.")
-        elif choice == '3':
-            print("\nAll Vaccines:")
-            for owner in owners:
-                for pet in owner.pets:
-                    for vaccine in pet.vaccinations:
-                        print(f"Pet: {pet.name} (Owner: {owner.name}), Vaccine Type: {vaccine.vaccine_type}")
-        elif choice == '4':
-            vaccine_type = input("Enter vaccine type to find: ").strip()
-            found = False
-            for owner in owners:
-                for pet in owner.pets:
-                    for vaccine in pet.vaccinations:
-                        if vaccine.vaccine_type == vaccine_type:
-                            print("Vaccine found:")
-                            print(f"Pet: {pet.name} (Owner: {owner.name}), Vaccine Type: {vaccine.vaccine_type}")
-                            found = True
-            if not found:
-                print(f"Vaccine '{vaccine_type}' not found.")
-        elif choice == '5':
-            break
+            print("No owners found")
+    elif option == '4':  # Find Owner by Name
+        name = input("Enter owner's name to find: ")
+        owner = Owner.find_by_name(name)
+        if owner:
+            print(f"Owner found - ID: {owner.id}, Name: {owner.name}")
         else:
-            print("Invalid choice. Please try again.")
+            print(f"No owner found with name '{name}'")
 
-# Main function
+# Function to handle pet operations
+def handle_pet_operations(option):
+    if option == '1':  # Create Pet
+        name = input("Enter pet's name: ")
+        species = input("Enter pet's species: ")
+        breed = input("Enter pet's breed: ")
+        birthdate = input("Enter pet's birthdate (YYYY-MM-DD): ")
+        owner_id = input("Enter owner's ID for the pet: ")
+        try:
+            owner_id = int(owner_id)
+            pet = Pet.create(name, species, breed, birthdate, owner_id)
+            print(f"Pet '{pet.name}' created with ID {pet.id}")
+        except ValueError as e:
+            print(f"Error: {e}")
+    elif option == '2':  # Delete Pet
+        pet_id = input("Enter pet ID to delete: ")
+        try:
+            pet_id = int(pet_id)
+            pet = Pet.find_by_id(pet_id)
+            if pet:
+                pet.delete()
+                print(f"Pet '{pet.name}' with ID {pet_id} deleted successfully")
+            else:
+                print(f"Pet with ID {pet_id} not found")
+        except ValueError:
+            print("Invalid pet ID")
+    elif option == '3':  # Display All Pets
+        pets = Pet.get_all()
+        if pets:
+            print("Pets:")
+            for pet in pets:
+                print(f"ID: {pet.id}, Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}, Owner ID: {pet.owner_id}")
+        else:
+            print("No pets found")
+    elif option == '4':  # Find Pet by Name
+        name = input("Enter pet's name to find: ")
+        pet = Pet.find_by_name(name)
+        if pet:
+            print(f"Pet found - ID: {pet.id}, Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}, Owner ID: {pet.owner_id}")
+        else:
+            print(f"No pet found with name '{name}'")
+    elif option == '5':  # Find Pets by Owner ID
+        owner_id = input("Enter owner ID to find pets: ")
+        try:
+            owner_id = int(owner_id)
+            pets = Pet.find_by_owner_id(owner_id)
+            if pets:
+                print(f"Pets belonging to owner with ID {owner_id}:")
+                for pet in pets:
+                    print(f"ID: {pet.id}, Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}, Owner ID: {pet.owner_id}")
+            else:
+                print(f"No pets found for owner with ID {owner_id}")
+        except ValueError:
+            print("Invalid owner ID")
+
+# Function to handle vaccine operations
+def handle_vaccine_operations(option):
+    if option == '1':  # Create Vaccine
+        vaccine_type = input("Enter vaccine type: ")
+        date_administered = input("Enter date administered (YYYY-MM-DD): ")
+        next_due_date = input("Enter next due date (YYYY-MM-DD): ")
+        pet_id = input("Enter pet ID for the vaccine: ")
+        try:
+            pet_id = int(pet_id)
+            vaccine = Vaccine.create(vaccine_type, date_administered, next_due_date, pet_id)
+            print(f"Vaccine '{vaccine.vaccine_type}' created with ID {vaccine.id}")
+        except ValueError as e:
+            print(f"Error: {e}")
+    elif option == '2':  # Delete Vaccine
+        vaccine_id = input("Enter vaccine ID to delete: ")
+        try:
+            vaccine_id = int(vaccine_id)
+            vaccine = Vaccine.find_by_id(vaccine_id)
+            if vaccine:
+                vaccine.delete()
+                print(f"Vaccine '{vaccine.vaccine_type}' with ID {vaccine_id} deleted successfully")
+            else:
+                print(f"Vaccine with ID {vaccine_id} not found")
+        except ValueError:
+            print("Invalid vaccine ID")
+    elif option == '3':  # Display All Vaccines
+        vaccines = Vaccine.get_all()
+        if vaccines:
+            print("Vaccines:")
+            for vaccine in vaccines:
+                print(f"ID: {vaccine.id}, Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}, Pet ID: {vaccine.pet_id}")
+        else:
+            print("No vaccines found")
+    elif option == '4':  # Find Vaccine by Type
+        vaccine_type = input("Enter vaccine type to find: ")
+        vaccine = Vaccine.find_by_type(vaccine_type)
+        if vaccine:
+            print(f"Vaccine found - ID: {vaccine.id}, Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}, Pet ID: {vaccine.pet_id}")
+        else:
+            print(f"No vaccine found with type '{vaccine_type}'")
+    elif option == '5':  # Find Vaccines by Pet ID
+        pet_id = input("Enter pet ID to find vaccines: ")
+        try:
+            pet_id = int(pet_id)
+            vaccines = Vaccine.find_by_pet_id(pet_id)
+            if vaccines:
+                print(f"Vaccines for pet with ID {pet_id}:")
+                for vaccine in vaccines:
+                    print(f"ID: {vaccine.id}, Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}, Pet ID: {vaccine.pet_id}")
+            else:
+                print(f"No vaccines found for pet with ID {pet_id}")
+        except ValueError:
+            print("Invalid pet ID")
+
+# Main function to run the program
 def main():
-    global owners
-    owners = []
-
-    database.create_tables()
+    Owner.create_table()
+    Pet.create_table()
+    Vaccine.create_table()
 
     while True:
-        choice = display_menu()
-
-        if choice == '1':
-            manage_owners()
-        elif choice == '2':
-            manage_pets()
-        elif choice == '3':
-            manage_vaccines()
-        elif choice == '4':
-            print("Exiting...")
-            break
+        display_menu()
+        choice = input("\nEnter your choice: ")
+        if choice == '1':  # Owners Menu
+            while True:
+                display_owner_menu()
+                owner_choice = input("\nEnter your choice: ")
+                if owner_choice == '5':
+                    break
+                handle_owner_operations(owner_choice)
+        elif choice == '2':  # Pets Menu
+            while True:
+                display_pet_menu()
+                pet_choice = input("\nEnter your choice: ")
+                if pet_choice == '6':
+                    break
+                handle_pet_operations(pet_choice)
+        elif choice == '3':  # Vaccines Menu
+            while True:
+                display_vaccine_menu()
+                vaccine_choice = input("\nEnter your choice: ")
+                if vaccine_choice == '6':
+                    break
+                handle_vaccine_operations(vaccine_choice)
+        elif choice == '4':  # Exit
+            print("Exiting program...")
+            sys.exit()
         else:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice. Please enter a valid option.")
 
 if __name__ == "__main__":
     main()
+
