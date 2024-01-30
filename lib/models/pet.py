@@ -2,15 +2,61 @@ from db.database import CONN, CURSOR
 
 class Pet:
     def __init__(self, name, species, breed, birthdate, owner_id=None, id=None):
-        self.id = id
-        self.name = name
-        self.species = species
-        self.breed = breed
-        self.birthdate = birthdate
-        self.owner_id = owner_id
+        self._id = id
+        self._name = name
+        self._species = species
+        self._breed = breed
+        self._birthdate = birthdate
+        self._owner_id = owner_id
 
-    def __repr__(self):
-        return f"<Pet {self.id}: {self.name}, {self.species}, {self.breed}, {self.birthdate}, Owner ID: {self.owner_id}>"
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        # Add constraints here if needed
+        self._name = value
+
+    @property
+    def species(self):
+        return self._species
+
+    @species.setter
+    def species(self, value):
+        # Add constraints here if needed
+        self._species = value
+
+    @property
+    def breed(self):
+        return self._breed
+
+    @breed.setter
+    def breed(self, value):
+        # Add constraints here if needed
+        self._breed = value
+
+    @property
+    def birthdate(self):
+        return self._birthdate
+
+    @birthdate.setter
+    def birthdate(self, value):
+        # Add constraints here if needed
+        self._birthdate = value
+
+    @property
+    def owner_id(self):
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, value):
+        # Add constraints here if needed
+        self._owner_id = value
 
     @classmethod
     def create_table(cls):

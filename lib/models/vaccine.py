@@ -1,15 +1,70 @@
 from db.database import CONN, CURSOR
+from datetime import datetime
 
 class Vaccine:
     def __init__(self, vaccine_type, date_administered, next_due_date, pet_id=None, id=None):
-        self.id = id
-        self.vaccine_type = vaccine_type
-        self.date_administered = date_administered
-        self.next_due_date = next_due_date
-        self.pet_id = pet_id
+        self._id = id
+        self._vaccine_type = vaccine_type
+        self._date_administered = date_administered
+        self._next_due_date = next_due_date
+        self._pet_id = pet_id
 
-    def __repr__(self):
-        return f"<Vaccine {self.id}: Type - {self.vaccine_type}, Administered - {self.date_administered}, Next Due - {self.next_due_date}, Pet ID - {self.pet_id}>"
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def vaccine_type(self):
+        return self._vaccine_type
+
+    @vaccine_type.setter
+    def vaccine_type(self, value):
+        if not value:
+            raise ValueError("Vaccine type cannot be empty.")
+        if len(value) > 100:  # Example maximum length
+            raise ValueError("Vaccine type is too long.")
+        self._vaccine_type = value
+
+    @property
+    def date_administered(self):
+        return self._date_administered
+
+    @date_administered.setter
+    def date_administered(self, value):
+        try:
+            datetime.strptime(value, '%Y-%m-%d')  # Check if the date string matches the format YYYY-MM-DD
+        except ValueError:
+            raise ValueError("Date administered should be in YYYY-MM-DD format.")
+        self._date_administered = value
+
+    @property
+    def next_due_date(self):
+        return self._next_due_date
+
+    @next_due_date.setter
+    def next_due_date(self, value):
+        try:
+            datetime.strptime(value, '%Y-%m-%d')  # Check if the date string matches the format YYYY-MM-DD
+        except ValueError:
+            raise ValueError("Next due date should be in YYYY-MM-DD format.")
+        self._next_due_date = value
+
+    @property
+    def pet_id(self):
+        return self._pet_id
+
+    @pet_id.setter
+    def pet_id(self, value):
+        # Check if the pet_id exists in the database
+        sql = """
+            SELECT id FROM pets WHERE id = ?
+        """
+        CURSOR.execute(sql, (value,))
+        row = CURSOR.fetchone()
+        if not row:
+            raise ValueError("Pet with the specified ID does not exist.")
+
+        self._pet_id = value
 
     @classmethod
     def create_table(cls):

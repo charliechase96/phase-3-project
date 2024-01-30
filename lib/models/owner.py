@@ -2,11 +2,24 @@ from db.database import CONN, CURSOR
 
 class Owner:
     def __init__(self, name, id=None):
-        self.id = id
-        self.name = name
+        self._id = id
+        self._name = name
 
-    def __repr__(self):
-        return f"<Owner {self.id}: {self.name}>"
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        if not value:
+            raise ValueError("Name cannot be empty.")
+        if len(value) > 100:  # Example maximum length
+            raise ValueError("Name is too long.")
+        self._name = value
 
     @classmethod
     def create_table(cls):
