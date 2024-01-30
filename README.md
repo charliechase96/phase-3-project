@@ -1,4 +1,4 @@
-# Pet Vaccination Tracker
+# Pet Vaccination Tracker CLI Project
 
 The Pet Vaccination Tracker is a command-line interface (CLI) application built with Python that helps pet owners keep track of their pets' vaccinations. The CLI script **main.py** serves as the entry point to the application, providing users with various options to manage owners, pets, and vaccines.
 
