@@ -2,7 +2,7 @@ from db.database import CONN, CURSOR
 from datetime import datetime
 
 class Pet:
-    def __init__(self, name, species, breed, birthdate, owner_id=None, id=None):
+    def __init__(self, name, species, breed, birthdate, owner_id, id=None):
         self._id = id
         self._name = name
         self._species = species
