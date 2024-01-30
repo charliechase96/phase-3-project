@@ -117,7 +117,7 @@ class Pet:
         CURSOR.execute(sql, (self.name, self.species, self.breed, self.birthdate, self.owner_id))
         CONN.commit()
 
-        self.id = CURSOR.lastrowid
+        # self.id = CURSOR.lastrowid
 
     @classmethod
     def create(cls, name, species, breed, birthdate, owner_id):
