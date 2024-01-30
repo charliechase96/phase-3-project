@@ -54,6 +54,23 @@ class Owner:
         CONN.commit()
 
         self.id = CURSOR.lastrowid
+    
+    def delete(self):
+        """ Delete the owner from the database """
+        sql_select = """
+            SELECT id FROM owners WHERE id = ?
+        """
+        CURSOR.execute(sql_select, (self.id,))
+        row = CURSOR.fetchone()
+        if row:
+            sql_delete = """
+                DELETE FROM owners WHERE id = ?
+            """
+            CURSOR.execute(sql_delete, (self.id,))
+            CONN.commit()
+            print(f"Owner with ID {self.id} deleted successfully")
+        else:
+            print(f"No owner found with ID {self.id}")
 
     @classmethod
     def create(cls, name):
