@@ -73,7 +73,7 @@ class Owner:
         owners = []
         for row in rows:
             owner_id, owner_name = row[0], row[1]
-            owner = cls(owner_id, owner_name)
+            owner = cls(owner_name, owner_id)
             owners.append(owner)
         return owners
     
