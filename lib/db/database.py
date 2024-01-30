@@ -1,10 +1,10 @@
 import sqlite3
 
 DB_FILE = "pets.db"
+CONN = sqlite3.connect(DB_FILE)
+CURSOR = CONN.cursor()
 
 def create_tables():
-    CONN = sqlite3.connect(DB_FILE)
-    CURSOR = CONN.cursor()
     CURSOR.execute('''CREATE TABLE IF NOT EXISTS pets
                  (name TEXT PRIMARY KEY,
                   species TEXT,
@@ -20,8 +20,6 @@ def create_tables():
     CONN.close()
 
 def add_pet(name, species, breed, birthdate):
-    CONN = sqlite3.connect(DB_FILE)
-    CURSOR = CONN.cursor()
     try:
         CURSOR.execute("INSERT INTO pets VALUES (?, ?, ?, ?)", (name, species, breed, birthdate))
         CONN.commit()
@@ -32,15 +30,11 @@ def add_pet(name, species, breed, birthdate):
         CONN.close()
 
 def record_vaccination(pet_name, vaccine_type, date_administered, next_due_date):
-    CONN = sqlite3.connect(DB_FILE)
-    CURSOR = CONN.cursor()
     CURSOR.execute("INSERT INTO vaccinations VALUES (?, ?, ?, ?)", (pet_name, vaccine_type, date_administered, next_due_date))
     CONN.commit()
     CONN.close()
 
 def display_pet_info(name):
-    CONN = sqlite3.connect(DB_FILE)
-    CURSOR = CONN.cursor()
     CURSOR.execute("SELECT * FROM pets WHERE name=?", (name,))
     pet = CURSOR.fetchone()
     if pet:

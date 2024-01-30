@@ -1,3 +1,5 @@
+from db.database import CONN, CURSOR
+
 class Vaccine:
     def __init__(self, vaccine_type, date_administered, next_due_date, pet_id=None, id=None):
         self.id = id
@@ -54,22 +56,30 @@ class Vaccine:
         vaccine.save()
         return vaccine
 
-    def update(self):
-        """Update the table row corresponding to the current Vaccine instance."""
+    @classmethod
+    def get_all(cls):
+        """ Retrieve all Vaccine instances from the database """
         sql = """
-            UPDATE vaccines
-            SET vaccine_type = ?, date_administered = ?, next_due_date = ?, pet_id = ?
-            WHERE id = ?
+            SELECT * FROM vaccines
         """
-        CURSOR.execute(sql, (self.vaccine_type, self.date_administered, self.next_due_date, self.pet_id, self.id))
-        CONN.commit()
+        CURSOR.execute(sql)
+        rows = CURSOR.fetchall()
+        vaccines = []
+        for row in rows:
+            vaccine = cls(row[1], row[2], row[3], row[4], row[0])
+            vaccines.append(vaccine)
+        return vaccines
 
-    def delete(self):
-        """Delete the table row corresponding to the current Vaccine instance"""
+    @classmethod
+    def find_by_id(cls, vaccine_id):
+        """ Find a Vaccine instance by ID """
         sql = """
-            DELETE FROM vaccines
-            WHERE id = ?
+            SELECT * FROM vaccines WHERE id = ?
         """
-
-        CURSOR.execute(sql, (self.id,))
-        CONN.commit()
+        CURSOR.execute(sql, (vaccine_id,))
+        row = CURSOR.fetchone()
+        if row:
+            vaccine = cls(row[1], row[2], row[3], row[4], row[0])
+            return vaccine
+        else:
+            return None
