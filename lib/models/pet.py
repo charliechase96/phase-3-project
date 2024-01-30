@@ -3,20 +3,20 @@ from datetime import datetime
 
 class Pet:
     def __init__(self, name, species, breed, birthdate, owner_id, id=None):
-        self._id = id
-        self._name = name
-        self._species = species
-        self._breed = breed
-        self._birthdate = birthdate
-        self._owner_id = owner_id
+        self.id = id
+        self.name = name
+        self.species = species
+        self.breed = breed
+        self.birthdate = birthdate
+        self.owner_id = owner_id
 
     # @property
     # def id(self):
-    #     return self._id
+    #     return self.id
 
     @property
     def name(self):
-        return self._name
+        return self.name
 
     @name.setter
     def name(self, value):
@@ -24,11 +24,11 @@ class Pet:
             raise ValueError("Name cannot be empty.")
         if len(value) > 25:  # Maximum length
             raise ValueError("Name is too long.")
-        self._name = value
+        self.name = value
 
     @property
     def species(self):
-        return self._species
+        return self.species
 
     @species.setter
     def species(self, value):
@@ -36,11 +36,11 @@ class Pet:
             raise ValueError("Species cannot be empty.")
         if len(value) > 25:  # Maximum length
             raise ValueError("Species is too long.")
-        self._species = value
+        self.species = value
 
     @property
     def breed(self):
-        return self._breed
+        return self.breed
 
     @breed.setter
     def breed(self, value):
@@ -48,11 +48,11 @@ class Pet:
             raise ValueError("Breed cannot be empty.")
         if len(value) > 25:  # Maximum length
             raise ValueError("Breed is too long.")
-        self._breed = value
+        self.breed = value
 
     @property
     def birthdate(self):
-        return self._birthdate
+        return self.birthdate
 
     @birthdate.setter
     def birthdate(self, value):
@@ -61,11 +61,11 @@ class Pet:
         except ValueError:
             raise ValueError("Birthdate should be in YYYY-MM-DD format.")
 
-        self._birthdate = value
+        self.birthdate = value
 
     @property
     def owner_id(self):
-        return self._owner_id
+        return self.owner_id
 
     @owner_id.setter
     def owner_id(self, value):
@@ -78,7 +78,7 @@ class Pet:
         if not row:
             raise ValueError("Owner with the specified ID does not exist.")
 
-        self._owner_id = value
+        self.owner_id = value
 
     @classmethod
     def create_table(cls):
@@ -117,21 +117,21 @@ class Pet:
         CURSOR.execute(sql, (self.name, self.species, self.breed, self.birthdate, self.owner_id))
         CONN.commit()
 
-        self._id = CURSOR.lastrowid
+        self.id = CURSOR.lastrowid
 
     def delete(self):
         """ Delete the Pet instance from the database """
-        if self._id is None:
+        if self.id is None:
             raise ValueError("Cannot delete unsaved Pet instance")
 
         sql = """
             DELETE FROM pets WHERE id = ?
         """
-        CURSOR.execute(sql, (self._id,))
+        CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
         # Reset the id attribute after deletion
-        self._id = None
+        self.id = None
 
     @classmethod
     def create(cls, name, species, breed, birthdate, owner_id):
