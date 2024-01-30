@@ -66,15 +66,25 @@ class Owner:
     def get_all(cls):
         """ Retrieve all Owner instances from the database """
         sql = """
-            SELECT * FROM owners
+            SELECT * FROM owners WHERE name != ''
         """
         CURSOR.execute(sql)
         rows = CURSOR.fetchall()
         owners = []
         for row in rows:
-            owner = cls(row[1], row[0])
+            owner_id, owner_name = row[0], row[1]
+            owner = cls(owner_id, owner_name)
             owners.append(owner)
         return owners
+    
+    @classmethod
+    def delete_empty_names(cls):
+        """ Delete records with empty names from the database """
+        sql = """
+            DELETE FROM owners WHERE name = ''
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
 
     @classmethod
     def find_by_id(cls, owner_id):
