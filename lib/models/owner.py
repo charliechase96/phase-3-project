@@ -5,9 +5,9 @@ class Owner:
         self.id = id
         self.name = name
 
-    @property
-    def id(self):
-        return self._id
+    # @property
+    # def id(self):
+    #     return self._id
 
     @property
     def name(self):
