@@ -160,3 +160,31 @@ class Pet:
         """
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
+
+    @classmethod
+    def find_by_name(cls, name):
+        """ Find a Pet instance by name """
+        sql = """
+            SELECT * FROM pets WHERE name = ?
+        """
+        CURSOR.execute(sql, (name,))
+        row = CURSOR.fetchone()
+        if row:
+            pet = cls(row[1], row[2], row[3], row[4], row[5], row[0])
+            return pet
+        else:
+            return None
+        
+    @classmethod
+    def find_by_owner_id(cls, owner_id):
+        """ Find a Pet instance by owner_id """
+        sql = """
+            SELECT * FROM pets WHERE owner_id = ?
+        """
+        CURSOR.execute(sql, (owner_id,))
+        rows = CURSOR.fetchall()
+        pets = []
+        for row in rows:
+            pet = cls(row[1], row[2], row[3], row[4], row[5], row[0])
+            pets.append(pet)
+        return pets
