@@ -119,6 +119,20 @@ class Pet:
 
         self.id = CURSOR.lastrowid
 
+    def delete(self):
+        """ Delete the Pet instance from the database """
+        if self.id is None:
+            raise ValueError("Cannot delete unsaved Pet instance")
+
+        sql = """
+            DELETE FROM pets WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        CONN.commit()
+
+        # Reset the id attribute after deletion
+        self._id = None
+
     @classmethod
     def create(cls, name, species, breed, birthdate, owner_id):
         """ Initialize a new Pet instance and save the object to the database """
