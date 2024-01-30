@@ -10,13 +10,9 @@ class Pet:
         self.birthdate = birthdate
         self.owner_id = owner_id
 
-    # @property
-    # def id(self):
-    #     return self.id
-
     @property
     def name(self):
-        return self.name
+        return self._name
 
     @name.setter
     def name(self, value):
@@ -24,11 +20,11 @@ class Pet:
             raise ValueError("Name cannot be empty.")
         if len(value) > 25:  # Maximum length
             raise ValueError("Name is too long.")
-        self.name = value
+        self._name = value
 
     @property
     def species(self):
-        return self.species
+        return self._species
 
     @species.setter
     def species(self, value):
@@ -36,11 +32,11 @@ class Pet:
             raise ValueError("Species cannot be empty.")
         if len(value) > 25:  # Maximum length
             raise ValueError("Species is too long.")
-        self.species = value
+        self._species = value
 
     @property
     def breed(self):
-        return self.breed
+        return self._breed
 
     @breed.setter
     def breed(self, value):
@@ -48,11 +44,11 @@ class Pet:
             raise ValueError("Breed cannot be empty.")
         if len(value) > 25:  # Maximum length
             raise ValueError("Breed is too long.")
-        self.breed = value
+        self._breed = value
 
     @property
     def birthdate(self):
-        return self.birthdate
+        return self._birthdate
 
     @birthdate.setter
     def birthdate(self, value):
@@ -61,11 +57,11 @@ class Pet:
         except ValueError:
             raise ValueError("Birthdate should be in YYYY-MM-DD format.")
 
-        self.birthdate = value
+        self._birthdate = value
 
     @property
     def owner_id(self):
-        return self.owner_id
+        return self._owner_id
 
     @owner_id.setter
     def owner_id(self, value):
@@ -78,7 +74,7 @@ class Pet:
         if not row:
             raise ValueError("Owner with the specified ID does not exist.")
 
-        self.owner_id = value
+        self._owner_id = value
 
     @classmethod
     def create_table(cls):
@@ -119,20 +115,6 @@ class Pet:
 
         self.id = CURSOR.lastrowid
 
-    def delete(self):
-        """ Delete the Pet instance from the database """
-        if self.id is None:
-            raise ValueError("Cannot delete unsaved Pet instance")
-
-        sql = """
-            DELETE FROM pets WHERE id = ?
-        """
-        CURSOR.execute(sql, (self.id,))
-        CONN.commit()
-
-        # Reset the id attribute after deletion
-        self.id = None
-
     @classmethod
     def create(cls, name, species, breed, birthdate, owner_id):
         """ Initialize a new Pet instance and save the object to the database """
@@ -167,3 +149,14 @@ class Pet:
             return pet
         else:
             return None
+
+    def delete(self):
+        """ Delete the current Pet instance from the database """
+        if self.id is None:
+            return  # No need to delete if the pet hasn't been saved
+
+        sql = """
+            DELETE FROM pets WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        CONN.commit()
