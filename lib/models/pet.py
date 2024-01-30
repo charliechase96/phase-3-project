@@ -117,17 +117,17 @@ class Pet:
         CURSOR.execute(sql, (self.name, self.species, self.breed, self.birthdate, self.owner_id))
         CONN.commit()
 
-        self.id = CURSOR.lastrowid
+        self._id = CURSOR.lastrowid
 
     def delete(self):
         """ Delete the Pet instance from the database """
-        if self.id is None:
+        if self._id is None:
             raise ValueError("Cannot delete unsaved Pet instance")
 
         sql = """
             DELETE FROM pets WHERE id = ?
         """
-        CURSOR.execute(sql, (self.id,))
+        CURSOR.execute(sql, (self._id,))
         CONN.commit()
 
         # Reset the id attribute after deletion
