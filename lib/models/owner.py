@@ -124,12 +124,10 @@ class Owner:
             SELECT * FROM owners WHERE name = ?
         """
         CURSOR.execute(sql, (name,))
-        rows = CURSOR.fetchall()
-        owners = []
-        if rows:
-            for row in rows:
-                owner = cls(row[1], row[0])
-                owners.append(owner)
+        row = CURSOR.fetchone()
+        if row:
+            owner = cls(row[1], row[0])
+            return owner
         else:
             print("No owner found with the specified name.")
-        return owners
+        return None
