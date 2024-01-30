@@ -1,4 +1,5 @@
 from db.database import CONN, CURSOR
+from datetime import datetime
 
 class Pet:
     def __init__(self, name, species, breed, birthdate, owner_id=None, id=None):
@@ -19,7 +20,10 @@ class Pet:
 
     @name.setter
     def name(self, value):
-        # Add constraints here if needed
+        if not value:
+            raise ValueError("Name cannot be empty.")
+        if len(value) > 25:  # Maximum length
+            raise ValueError("Name is too long.")
         self._name = value
 
     @property
@@ -28,7 +32,10 @@ class Pet:
 
     @species.setter
     def species(self, value):
-        # Add constraints here if needed
+        if not value:
+            raise ValueError("Species cannot be empty.")
+        if len(value) > 25:  # Maximum length
+            raise ValueError("Species is too long.")
         self._species = value
 
     @property
@@ -37,7 +44,10 @@ class Pet:
 
     @breed.setter
     def breed(self, value):
-        # Add constraints here if needed
+        if not value:
+            raise ValueError("Breed cannot be empty.")
+        if len(value) > 25:  # Maximum length
+            raise ValueError("Breed is too long.")
         self._breed = value
 
     @property
@@ -46,7 +56,11 @@ class Pet:
 
     @birthdate.setter
     def birthdate(self, value):
-        # Add constraints here if needed
+        try:
+            datetime.strptime(value, '%Y-%m-%d')  # Check if the date string matches the format YYYY-MM-DD
+        except ValueError:
+            raise ValueError("Birthdate should be in YYYY-MM-DD format.")
+
         self._birthdate = value
 
     @property
@@ -55,7 +69,15 @@ class Pet:
 
     @owner_id.setter
     def owner_id(self, value):
-        # Add constraints here if needed
+        # Check if the owner_id exists in the database
+        sql = """
+            SELECT id FROM owners WHERE id = ?
+        """
+        CURSOR.execute(sql, (value,))
+        row = CURSOR.fetchone()
+        if not row:
+            raise ValueError("Owner with the specified ID does not exist.")
+
         self._owner_id = value
 
     @classmethod

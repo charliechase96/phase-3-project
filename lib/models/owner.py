@@ -17,7 +17,7 @@ class Owner:
     def name(self, value):
         if not value:
             raise ValueError("Name cannot be empty.")
-        if len(value) > 100:  # Example maximum length
+        if len(value) > 25:  # Maximum length
             raise ValueError("Name is too long.")
         self._name = value
 

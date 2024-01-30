@@ -21,7 +21,7 @@ class Vaccine:
     def vaccine_type(self, value):
         if not value:
             raise ValueError("Vaccine type cannot be empty.")
-        if len(value) > 100:  # Example maximum length
+        if len(value) > 25:  # Maximum length
             raise ValueError("Vaccine type is too long.")
         self._vaccine_type = value
 

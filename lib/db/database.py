@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_FILE = "pets.db"
+DB_FILE = "pet_vaccines.db"
 CONN = sqlite3.connect(DB_FILE)
 CURSOR = CONN.cursor()
 
