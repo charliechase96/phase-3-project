@@ -2,8 +2,8 @@ from db.database import CONN, CURSOR
 
 class Owner:
     def __init__(self, name, id=None):
-        self._id = id
-        self._name = name
+        self.id = id
+        self.name = name
 
     @property
     def id(self):
