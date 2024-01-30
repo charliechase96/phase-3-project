@@ -2,16 +2,12 @@ from db.database import CONN, CURSOR
 from datetime import datetime
 
 class Vaccine:
-    def __init__(self, vaccine_type, date_administered, next_due_date, pet_id=None, id=None):
-        self._id = id
-        self._vaccine_type = vaccine_type
-        self._date_administered = date_administered
-        self._next_due_date = next_due_date
-        self._pet_id = pet_id
-
-    @property
-    def id(self):
-        return self._id
+    def __init__(self, vaccine_type, date_administered, next_due_date, pet_id, id=None):
+        self.id = id
+        self.vaccine_type = vaccine_type
+        self.date_administered = date_administered
+        self.next_due_date = next_due_date
+        self.pet_id = pet_id
 
     @property
     def vaccine_type(self):
