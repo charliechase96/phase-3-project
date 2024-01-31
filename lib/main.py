@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-#!/usr/bin/env python3
-
 import sys
 from models.owner import Owner
 from models.pet import Pet
@@ -50,7 +48,7 @@ def main():
                     print(f"{owner.id}.) {owner.name}")
                 print()
 
-                owner_choice = input("Now displaying all pet owners. Enter list number for owner to display pet options for that owner. Enter 'back' to return to the main menu.\n")
+                owner_choice = input("Now displaying all pet owners. Enter list number for owner to display pet options for that owner. Enter 'back' to return to the main menu.\n\nEnter your choice: ")
 
                 if owner_choice.lower() == 'back':
                     continue
@@ -103,7 +101,7 @@ def main():
                                     print(f"{pet.id}.) Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}")
                                 print()
 
-                                pet_number_choice = input(f"Now displaying all pets for owner named {selected_owner.name}. Enter list number for pet to display vaccine options for that pet. Enter 'back' to return to the previous menu.\n")
+                                pet_number_choice = input(f"Now displaying all pets for owner named {selected_owner.name}. Enter list number for pet to display vaccine options for that pet. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
 
                                 if pet_number_choice.lower() == 'back':
                                     continue
@@ -155,7 +153,7 @@ def main():
                                                     print(f"{vaccine.id}.) Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}")
                                                 print()
 
-                                                input("Now displaying all vaccines for pet named {selected_pet.name}. Enter 'back' to return to the previous menu.\n")
+                                                input(f"\nNow displaying all vaccines for pet named {selected_pet.name}. Enter 'back' to return to the previous menu.\n\nEnter your choice: \n")
 
                                             else:
                                                 print(f"\nNo vaccines found for pet '{selected_pet.name}'\n")
