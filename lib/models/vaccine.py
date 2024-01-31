@@ -155,7 +155,7 @@ class Vaccine:
         CURSOR.execute(sql, (vaccine_type,))
         row = CURSOR.fetchone()
         if row:
-            vaccine = cls(row[1], row[2], row[3], row[0])
+            vaccine = cls(row[1], row[2], row[3], row[4], row[0])
             return vaccine
         else:
             return None
