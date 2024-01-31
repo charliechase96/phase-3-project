@@ -67,7 +67,9 @@ def main():
                         print("3. Display All Pets for Selected Owner")
                         print("4. Back to Previous Menu")
 
-                        pet_choice = input("\nEnter your choice: ")
+                        print(f"\nNow displaying the pet options for '{selected_owner.name}'. Enter a menu option number to navigate through the available pet options.\n")
+
+                        pet_choice = input("Enter your choice: ")
 
                         if pet_choice == '1':  # Create Pet
                             name = input("\nEnter pet's name: ")
@@ -120,7 +122,9 @@ def main():
                                         print("3. Display All Vaccines for Selected Pet")
                                         print("4. Back to Previous Menu")
 
-                                        vaccine_choice = input("\nEnter your choice: ")
+                                        print(f"\nNow displaying the vaccine options for '{selected_pet.name}'. Enter a menu option number to navigate through the available vaccine options.\n")
+
+                                        vaccine_choice = input("Enter your choice: ")
 
                                         if vaccine_choice == '1':  # Create Vaccine
                                             vaccine_type = input("\nEnter vaccine type: ")
@@ -153,7 +157,7 @@ def main():
                                                     print(f"{vaccine.id}.) Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}")
                                                 print()
 
-                                                input(f"\nNow displaying all vaccines for pet named {selected_pet.name}. Enter 'back' to return to the previous menu.\n\nEnter your choice: \n")
+                                                input(f"\nNow displaying all vaccines for pet named {selected_pet.name}. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
 
                                             else:
                                                 print(f"\nNo vaccines found for pet '{selected_pet.name}'\n")
