@@ -155,9 +155,10 @@ class Vaccine:
         CURSOR.execute(sql, (vaccine_type,))
         row = CURSOR.fetchone()
         if row:
-            return row
+            vaccine = cls(row[1], row[2], row[3], row[0])
+            return vaccine
         else:
-            raise ValueError("No vaccine found with the specified type.")
+            return None
 
     @classmethod
     def find_by_pet_id(cls, pet_id):
