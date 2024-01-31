@@ -67,7 +67,7 @@ def main():
                                 species = input("Enter pet's species: ")
                                 breed = input("Enter pet's breed: ")
                                 birthdate = input("Enter pet's birthdate (YYYY-MM-DD): ")
-                                pet = Pet.create(owner_id, str(name), species, breed, birthdate)
+                                pet = Pet.create(name, species, breed, birthdate, owner_id)
                                 print(f"Pet '{pet.name}' created for owner '{owner.name}'")
                             else:
                                 print(f"No owner found at list number {owner_id}")
