@@ -99,6 +99,17 @@ class Vaccine:
         CONN.commit()
 
         self.id = CURSOR.lastrowid
+    
+    def delete(self):
+        """ Delete the vaccine from the database """
+        if self.id is None:
+            raise ValueError("Vaccine must be saved before it can be deleted.")
+
+        sql = """
+            DELETE FROM vaccines WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        CONN.commit()
 
     @classmethod
     def create(cls, vaccine_type, date_administered, next_due_date, pet_id):
