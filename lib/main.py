@@ -60,7 +60,7 @@ def main():
                     if choice_pet_menu == '1':  # Create New Pet
                         owner_id = input("Enter owner list number for the new pet: ")
                         try:
-                            owner_id = int(owner_id)
+                            owner_id = int(owner_id)  # Convert to integer
                             owner = Owner.find_by_id(owner_id)
                             if owner:
                                 name = input("Enter pet's name: ")
