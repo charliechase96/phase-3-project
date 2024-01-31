@@ -150,7 +150,7 @@ class Vaccine:
     def find_by_type(cls, vaccine_type):
         """ Find a vaccine in the database by type """
         sql = """
-            SELECT * FROM vaccines WHERE type = ?
+            SELECT * FROM vaccines WHERE vaccine_type = ?
         """
         CURSOR.execute(sql, (vaccine_type,))
         row = CURSOR.fetchone()
