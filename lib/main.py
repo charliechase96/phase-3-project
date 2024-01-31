@@ -62,6 +62,8 @@ def main():
                         species = input("Enter pet's species: ")
                         breed = input("Enter pet's breed: ")
                         birthdate = input("Enter pet's birthdate (YYYY-MM-DD): ")
+                        owner_id = input("Enter pet's owner list number: ")
+                        
                         try:
                             pet = Pet.create(owner_id, name, species, breed, birthdate)
                             print(f"Pet '{pet.name}' created and placed at list number {pet.id}")
