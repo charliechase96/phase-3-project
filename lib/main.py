@@ -131,7 +131,7 @@ def main():
                                             date_administered = input("Enter date administered (YYYY-MM-DD): ")
                                             next_due_date = input("Enter next due date (YYYY-MM-DD): ")
                                             try:
-                                                vaccine = Vaccine.create(pet_number_choice, vaccine_type, date_administered, next_due_date)
+                                                vaccine = Vaccine.create(vaccine_type, date_administered, next_due_date, pet_number_choice)
                                                 print(f"\nVaccine added for pet '{selected_pet.name}'\n")
                                             except ValueError as e:
                                                 print(f"\nError: {e}\n")
