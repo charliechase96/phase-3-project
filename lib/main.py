@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+#!/usr/bin/env python3
+
 import sys
 from models.owner import Owner
 from models.pet import Pet
@@ -20,25 +22,25 @@ def main():
         choice = input("\nEnter your choice: ")
 
         if choice == '1':  # Create Owner
-            name = input("Enter owner's name: ")
+            name = input("\nEnter owner's name: ")
             try:
                 owner = Owner.create(name)
-                print(f"Owner '{owner.name}' created and placed at list number {owner.id}")
+                print(f"\nOwner '{owner.name}' created and placed at list number {owner.id}\n")
             except ValueError as e:
-                print(f"Error: {e}")
+                print(f"\nError: {e}\n")
 
         elif choice == '2':  # Delete Owner
-            owner_id = input("Enter owner list number to delete: ")
+            owner_id = input("\nEnter owner list number to delete: ")
             try:
                 owner_id = int(owner_id)
                 owner = Owner.find_by_id(owner_id)
                 if owner:
                     owner.delete()
-                    print(f"Owner '{owner.name}' at list number {owner_id} deleted successfully")
+                    print(f"\nOwner '{owner.name}' at list number {owner_id} deleted successfully\n")
                 else:
-                    print(f"Owner at list number {owner_id} not found")
+                    print(f"\nOwner at list number {owner_id} not found\n")
             except ValueError:
-                print("Invalid owner list number")
+                print("\nInvalid owner list number\n")
 
         elif choice == '3':  # Display All Owners
             owners = Owner.get_all()
@@ -46,144 +48,150 @@ def main():
                 print("\nOwners:")
                 for owner in owners:
                     print(f"{owner.id}.) {owner.name}")
-                print()  # Skip a line
+                print()
 
-                # Pet Menu options
-                while True:
-                    print("Pet Menu:")
-                    print("1. Create New Pet")
-                    print("2. Delete a Pet")
-                    print("3. Display All Pets for Owner")
-                    print("4. Back to Main Menu")
-                    choice_pet_menu = input("\nEnter your choice: ")
+                owner_choice = input("Now displaying all pet owners. Enter list number for owner to display pet options for that owner. Enter 'back' to return to the main menu.\n")
 
-                    if choice_pet_menu == '1':  # Create New Pet
-                        owner_id = input("Enter owner list number for the new pet: ")
-                        try:
-                            owner_id = int(owner_id)  # Convert to integer
-                            owner = Owner.find_by_id(owner_id)
-                            if owner:
-                                name = input("Enter pet's name: ")
-                                species = input("Enter pet's species: ")
-                                breed = input("Enter pet's breed: ")
-                                birthdate = input("Enter pet's birthdate (YYYY-MM-DD): ")
-                                pet = Pet.create(str(name), species, breed, birthdate, owner_id)
-                                print(f"Pet '{pet.name}' created for owner '{owner.name}'")
-                            else:
-                                print(f"No owner found at list number {owner_id}")
-                        except ValueError:
-                            print("Invalid owner list number")
+                if owner_choice.lower() == 'back':
+                    continue
 
-                    elif choice_pet_menu == '2':  # Delete a Pet
-                        pet_id = input("Enter pet list number to delete: ")
-                        try:
-                            pet_id = int(pet_id)
-                            pet = Pet.find_by_id(pet_id)
-                            if pet:
-                                pet.delete()
-                                print(f"Pet '{pet.name}' at list number {pet_id} deleted successfully")
-                            else:
-                                print(f"Pet not found at list number {pet_id}")
-                        except ValueError:
-                            print("Invalid pet list number")
+                try:
+                    owner_choice = int(owner_choice)
+                    selected_owner = Owner.find_by_id(owner_choice)
+                    if not selected_owner:
+                        print("\nOwner not found. Please enter a valid list number.\n")
+                        continue
 
-                    elif choice_pet_menu == '3':  # Display All Pets for Owner
-                        owner_id = input("Enter owner list number to display pets for: ")
-                        try:
-                            owner_id = int(owner_id)
-                            owner = Owner.find_by_id(owner_id)
-                            if owner:
-                                pets = Pet.find_by_owner_id(owner_id)
-                                if pets:
-                                    print(f"Pets for owner '{owner.name}':")
-                                    for pet in pets:
-                                        print(f"{pet.id}.) Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}")
+                    while True:
+                        print("\nPet Menu:")
+                        print("1. Create Pet")
+                        print("2. Delete Pet")
+                        print("3. Display All Pets for Selected Owner")
+                        print("4. Back to Previous Menu")
+
+                        pet_choice = input("\nEnter your choice: ")
+
+                        if pet_choice == '1':  # Create Pet
+                            name = input("\nEnter pet's name: ")
+                            species = input("Enter pet's species: ")
+                            breed = input("Enter pet's breed: ")
+                            birthdate = input("Enter pet's birthdate (YYYY-MM-DD): ")
+                            try:
+                                pet = Pet.create(str(name), species, breed, birthdate, owner_choice)
+                                print(f"\nPet '{pet.name}' created for owner '{selected_owner.name}'\n")
+                            except ValueError as e:
+                                print(f"\nError: {e}\n")
+
+                        elif pet_choice == '2':  # Delete Pet
+                            pet_id = input("\nEnter pet list number to delete: ")
+                            try:
+                                pet_id = int(pet_id)
+                                pet = Pet.find_by_id(pet_id)
+                                if pet:
+                                    pet.delete()
+                                    print(f"\nPet '{pet.name}' at list number {pet_id} deleted successfully\n")
                                 else:
-                                    print(f"No pets found for owner '{owner.name}'")
+                                    print(f"\nPet not found at list number {pet_id}\n")
+                            except ValueError:
+                                print("\nInvalid pet list number\n")
+
+                        elif pet_choice == '3':  # Display All Pets for Selected Owner
+                            pets = Pet.find_by_owner_id(owner_choice)
+                            if pets:
+                                print(f"\nPets for owner '{selected_owner.name}':")
+                                for pet in pets:
+                                    print(f"{pet.id}.) Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}")
+                                print()
+
+                                pet_number_choice = input(f"Now displaying all pets for owner named {selected_owner.name}. Enter list number for pet to display vaccine options for that pet. Enter 'back' to return to the previous menu.\n")
+
+                                if pet_number_choice.lower() == 'back':
+                                    continue
+
+                                try:
+                                    pet_number_choice = int(pet_number_choice)
+                                    selected_pet = Pet.find_by_id(pet_number_choice)
+                                    if not selected_pet:
+                                        print("\nPet not found. Please enter a valid list number.\n")
+                                        continue
+
+                                    while True:
+                                        print("\nVaccine Menu:")
+                                        print("1. Create Vaccine")
+                                        print("2. Delete Vaccine")
+                                        print("3. Display All Vaccines for Selected Pet")
+                                        print("4. Back to Previous Menu")
+
+                                        vaccine_choice = input("\nEnter your choice: ")
+
+                                        if vaccine_choice == '1':  # Create Vaccine
+                                            vaccine_type = input("\nEnter vaccine type: ")
+                                            date_administered = input("Enter date administered (YYYY-MM-DD): ")
+                                            next_due_date = input("Enter next due date (YYYY-MM-DD): ")
+                                            try:
+                                                vaccine = Vaccine.create(pet_number_choice, vaccine_type, date_administered, next_due_date)
+                                                print(f"\nVaccine added for pet '{selected_pet.name}'\n")
+                                            except ValueError as e:
+                                                print(f"\nError: {e}\n")
+
+                                        elif vaccine_choice == '2':  # Delete Vaccine
+                                            vaccine_id = input("\nEnter vaccine list number to delete: ")
+                                            try:
+                                                vaccine_id = int(vaccine_id)
+                                                vaccine = Vaccine.find_by_id(vaccine_id)
+                                                if vaccine:
+                                                    vaccine.delete()
+                                                    print(f"\nVaccine at list number {vaccine_id} deleted successfully\n")
+                                                else:
+                                                    print(f"\nVaccine not found at list number {vaccine_id}\n")
+                                            except ValueError:
+                                                print("\nInvalid vaccine list number\n")
+
+                                        elif vaccine_choice == '3':  # Display All Vaccines for Selected Pet
+                                            vaccines = Vaccine.find_by_pet_id(pet_number_choice)
+                                            if vaccines:
+                                                print(f"\nVaccines for pet '{selected_pet.name}':")
+                                                for vaccine in vaccines:
+                                                    print(f"{vaccine.id}.) Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}")
+                                                print()
+
+                                                input("Now displaying all vaccines for pet named {selected_pet.name}. Enter 'back' to return to the previous menu.\n")
+
+                                            else:
+                                                print(f"\nNo vaccines found for pet '{selected_pet.name}'\n")
+
+                                        elif vaccine_choice == '4':  # Back to Previous Menu
+                                            print("\nReturning to Previous Menu...\n")
+                                            break
+
+                                        else:
+                                            print("\nInvalid choice. Please enter a valid option.\n")
+
+                                except ValueError:
+                                    print("\nInvalid pet list number\n")
+
                             else:
-                                print(f"No owner found at list number {owner_id}")
-                        except ValueError:
-                            print("Invalid owner list number")
+                                print(f"\nNo pets found for owner '{selected_owner.name}'\n")
 
-                    elif choice_pet_menu == '4':  # Back to Main Menu
-                        print("Returning to Main Menu...")
-                        break
+                        elif pet_choice == '4':  # Back to Previous Menu
+                            print("\nReturning to Previous Menu...\n")
+                            break
 
-                    else:
-                        print("Invalid choice. Please enter a valid option.")
+                        else:
+                            print("\nInvalid choice. Please enter a valid option.\n")
 
-                # Vaccine Menu options
-                while True:
-                    print("\nVaccine Menu:")
-                    print("1. Add New Vaccine")
-                    print("2. Delete a Vaccine")
-                    print("3. Display Pet Vaccine Info")
-                    print("4. Back to Previous Menu")
-                    choice_vaccine_menu = input("\nEnter your choice: ")
-
-                    if choice_vaccine_menu == '1':  # Add New Vaccine
-                        pet_id = input("Enter pet list number to add vaccine for: ")
-                        try:
-                            pet_id = int(pet_id)
-                            pet = Pet.find_by_id(pet_id)
-                            if pet:
-                                vaccine_type = input("Enter vaccine type: ")
-                                date_administered = input("Enter date administered (YYYY-MM-DD): ")
-                                next_due_date = input("Enter next due date (YYYY-MM-DD): ")
-                                vaccine = Vaccine.create(pet_id, vaccine_type, date_administered, next_due_date)
-                                print(f"Vaccine added for pet '{pet.name}'")
-                            else:
-                                print(f"No pet found at list number {pet_id}")
-                        except ValueError:
-                            print("Invalid pet list number")
-
-                    elif choice_vaccine_menu == '2':  # Delete a Vaccine
-                        vaccine_id = input("Enter vaccine list number to delete: ")
-                        try:
-                            vaccine_id = int(vaccine_id)
-                            vaccine = Vaccine.find_by_id(vaccine_id)
-                            if vaccine:
-                                vaccine.delete()
-                                print(f"Vaccine at list number {vaccine_id} deleted successfully")
-                            else:
-                                print(f"Vaccine not found at list number {vaccine_id}")
-                        except ValueError:
-                            print("Invalid vaccine list number")
-
-                    elif choice_vaccine_menu == '3':  # Display Pet Vaccine Info
-                        pet_id = input("Enter pet list number to display vaccine info for: ")
-                        try:
-                            pet_id = int(pet_id)
-                            pet = Pet.find_by_id(pet_id)
-                            if pet:
-                                vaccines = Vaccine.find_by_pet_id(pet_id)
-                                if vaccines:
-                                    print(f"Vaccines for pet '{pet.name}':")
-                                    for vaccine in vaccines:
-                                        print(f"{vaccine.id}.) Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}")
-                                else:
-                                    print(f"No vaccines found for pet '{pet.name}'")
-                            else:
-                                print(f"No pet found at list number {pet_id}")
-                        except ValueError:
-                            print("Invalid pet list number")
-
-                    elif choice_vaccine_menu == '4':  # Back to Previous Menu
-                        print("Returning to Previous Menu...")
-                        break
-
-                    else:
-                        print("Invalid choice. Please enter a valid option.")
+                except ValueError:
+                    print("\nInvalid owner list number\n")
 
             else:
-                print("No owners found")
+                print("\nNo owners found\n")
 
         elif choice == '4':  # Exit
-            print("Exiting program...")
+            print("\nExiting program...\n")
             sys.exit()
 
         else:
-            print("Invalid choice. Please enter a valid option.")
+            print("\nInvalid choice. Please enter a valid option.\n")
 
 if __name__ == "__main__":
     main()
