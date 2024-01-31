@@ -170,6 +170,6 @@ class Vaccine:
         rows = CURSOR.fetchall()
         vaccines = []
         for row in rows:
-            vaccine = cls(row[1], row[2], row[3], row[0])
+            vaccine = cls(row[1], row[2], row[3], row[4], row[0])
             vaccines.append(vaccine)
         return vaccines
