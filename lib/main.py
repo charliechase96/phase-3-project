@@ -65,7 +65,8 @@ def main():
                         print("1. Create Pet")
                         print("2. Delete Pet")
                         print("3. Display All Pets for Selected Owner")
-                        print("4. Back to Previous Menu")
+                        print("4. Display All Pets for All Owners")
+                        print("5. Back to Previous Menu")
 
                         print(f"\nNow displaying the pet options for '{selected_owner.name}'. Enter a menu option number to navigate through the available pet options.\n")
 
@@ -103,7 +104,17 @@ def main():
                                     print(f"{pet.id}.) Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}")
                                 print()
 
-                                pet_number_choice = input(f"Now displaying all pets for owner named {selected_owner.name}. Enter list number for pet to display vaccine options for that pet. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
+                                input(f"Now displaying all pets for owner named {selected_owner.name}. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
+
+                        elif pet_choice == '4':  # Display All Pets for All Owners
+                            all_pets = Pet.get_all()
+                            if all_pets:
+                                print("\nAll Pets:")
+                                for pet in all_pets:
+                                    print(f"{pet.id}.) Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}")
+                                print()
+
+                                pet_number_choice = input("\nNow displaying all pets across all owners in the database. Enter list number for pet to display the owner information for that pet. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
 
                                 if pet_number_choice.lower() == 'back':
                                     continue
@@ -113,8 +124,7 @@ def main():
                                     selected_pet = Pet.find_by_id(pet_number_choice)
                                     if not selected_pet:
                                         print("\nPet not found. Please enter a valid list number.\n")
-                                        continue
-
+                                
                                     while True:
                                         print("\nVaccine Menu:")
                                         print("1. Create Vaccine")
@@ -175,7 +185,7 @@ def main():
                             else:
                                 print(f"\nNo pets found for owner '{selected_owner.name}'\n")
 
-                        elif pet_choice == '4':  # Back to Previous Menu
+                        elif pet_choice == '5':  # Back to Previous Menu
                             print("\nReturning to Previous Menu...\n")
                             break
 
