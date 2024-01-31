@@ -145,3 +145,31 @@ class Vaccine:
             return vaccine
         else:
             return None
+
+    @classmethod
+    def find_by_type(cls, vaccine_type):
+        """ Find a vaccine in the database by type """
+        sql = """
+            SELECT * FROM vaccines WHERE type = ?
+        """
+        CURSOR.execute(sql, (vaccine_type,))
+        row = CURSOR.fetchone()
+        if row:
+            vaccine = cls(row[1], row[2], row[3], row[0])
+            return vaccine
+        else:
+            return None
+
+    @classmethod
+    def find_by_pet_id(cls, pet_id):
+        """ Find vaccines in the database by pet_id """
+        sql = """
+            SELECT * FROM vaccines WHERE pet_id = ?
+        """
+        CURSOR.execute(sql, (pet_id,))
+        rows = CURSOR.fetchall()
+        vaccines = []
+        for row in rows:
+            vaccine = cls(row[1], row[2], row[3], row[0])
+            vaccines.append(vaccine)
+        return vaccines
