@@ -113,7 +113,6 @@ def main():
                                                     print("1. Add New Vaccine")
                                                     print("2. Delete Vaccine")
                                                     print("3. Back to Previous Menu")
-                                                    print("4. Back to Main Menu")
                                                     choice_vaccine_menu = input("\nEnter your choice: ")
 
                                                     if choice_vaccine_menu == '1':  # Add New Vaccine
@@ -140,10 +139,6 @@ def main():
                                                             print("Invalid vaccine list number")
 
                                                     elif choice_vaccine_menu == '3':  # Back to Previous Menu
-                                                        break
-
-                                                    elif choice_vaccine_menu == '4':  # Back to Main Menu
-                                                        print("Returning to Main Menu...")
                                                         break
 
                                                     else:
