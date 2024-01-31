@@ -6,10 +6,10 @@ The Pet Vaccination Tracker is a command-line interface (CLI) application built 
 
 The **main.py** script provides a user-friendly interface for interacting with the Pet Vaccination Tracker. Upon running the script, users are presented with a main menu that allows them to navigate through different options:
 
-**Owners Menu:** Create, delete, display, and find owners by name.
-**Pets Menu:** Create, delete, display, and find pets by name or owner ID.
-**Vaccines Menu:** Create, delete, display, and find vaccines by type or pet ID.
-**Exit:** Terminate the application.
++ **Owners Menu:** Create, delete, display, and find owners by name.
++ **Pets Menu:** Create, delete, display, and find pets by name or owner ID.
++ **Vaccines Menu:** Create, delete, display, and find vaccines by type or pet ID.
++ **Exit:** Terminate the application.
 
 Users can input their choices using the corresponding numerical options and follow the on-screen prompts to perform desired actions.
 
