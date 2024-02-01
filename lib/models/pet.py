@@ -193,7 +193,9 @@ class Pet:
     @staticmethod
     def get_all_with_owners():
         query = """
-            SELECT pets.*, owners.id AS owner_id, owners.name AS owner_name
+            SELECT pets.id AS pet_id, pets.name AS pet_name, pets.species AS pet_species,
+               pets.breed AS pet_breed, pets.birthdate AS pet_birthdate,
+               owners.id AS owner_id, owners.name AS owner_name
             FROM pets
             INNER JOIN owners ON pets.owner_id = owners.id
         """
@@ -201,7 +203,7 @@ class Pet:
             result = CONN.execute(query)
             pets = []
             for row in result:
-                pet = Pet(row[0], row[1], row[2], row[3], row[4])
-                owner = Owner(str(row[6]), str(row[5]))
+                pet = Pet(row['pet_id'], row['pet_name'], row['pet_species'], row['pet_breed'], row['pet_birthdate'])
+                owner = Owner(str(row['owner_id']), str(row['owner_name']))
                 pets.append((pet, owner))
             return pets
