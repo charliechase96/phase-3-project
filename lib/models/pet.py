@@ -201,7 +201,7 @@ class Pet:
             result = CONN.execute(query)
             pets = []
             for row in result:
-                pet = Pet(row[1], row[2], row[3], row[4], row[5])
+                pet = Pet(row[0], row[1], row[2], row[3], row[4], row[5])
                 owner = Owner(str(row[7]), str(row[6]))
                 pets.append((pet, owner))
             return pets
