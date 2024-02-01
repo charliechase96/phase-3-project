@@ -126,7 +126,7 @@ class Owner:
         CURSOR.execute(sql, (name,))
         row = CURSOR.fetchone()
         if row:
-            owner = cls(row[1], row[0])
+            owner = cls(row[1])
             return owner
         else:
             print("No owner found with the specified name.")

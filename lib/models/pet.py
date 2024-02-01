@@ -192,17 +192,17 @@ class Pet:
     
     @staticmethod
     def get_all_with_owners():
-        query = """
-            SELECT pets.id AS pet_id, pets.name AS pet_name, pets.species AS pet_species,
-               pets.breed AS pet_breed, pets.birthdate AS pet_birthdate,
-               owners.id AS owner_id, owners.name AS owner_name
+        sql = """
+            SELECT pets.id, pets.name, pets.species, pets.breed, pets.birthdate,
+            owners.id AS owner_id, owners.name AS owner_name
             FROM pets
             INNER JOIN owners ON pets.owner_id = owners.id
         """
-        with CONN:
-            result = CONN.execute(query)
+        with CURSOR:
+            CURSOR.execute(sql)
+            rows = CURSOR.fetchall()
             pets = []
-            for row in result:
+            for row in rows:
                 pet = Pet(str(row[0]), row[1], row[2], row[3], row[4])
                 owner = Owner((row[6]), (row[5]))
                 pets.append((pet, owner))
