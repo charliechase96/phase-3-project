@@ -1,5 +1,6 @@
 from db.database import CONN, CURSOR
 from datetime import datetime
+from .owner import Owner
 
 class Pet:
     def __init__(self, name, species, breed, birthdate, owner_id, id=None):
@@ -188,3 +189,19 @@ class Pet:
             pet = cls(row[1], row[2], row[3], row[4], row[5], row[0])
             pets.append(pet)
         return pets
+    
+    @staticmethod
+    def get_all_with_owners():
+        query = """
+            SELECT pets.*, owners.id AS owner_id, owners.name AS owner_name
+            FROM pets
+            INNER JOIN owners ON pets.owner_id = owners.id
+        """
+        with CONN:
+            result = CONN.execute(query)
+            pets = []
+            for row in result:
+                pet = Pet(row['name'], row['species'], row['breed'], row['birthdate'], row['owner_id'])
+                owner = Owner(row['owner_name'], row['owner_id'])
+                pets.append((pet, owner))
+            return pets
