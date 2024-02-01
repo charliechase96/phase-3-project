@@ -204,7 +204,7 @@ class Pet:
             pets = []
             for row in rows:
                 pet_id = row[0]
-                name = row[1]
+                name = str(row[1])
                 species = row[2]
                 breed = row[3]
                 # Check if birthdate is in the correct format
