@@ -192,18 +192,34 @@ class Pet:
     
     @staticmethod
     def get_all_with_owners():
-        sql = """
-            SELECT pets.id, pets.name, pets.species, pets.breed, pets.birthdate,
-            owners.id AS owner_id, owners.name AS owner_name
-            FROM pets
-            INNER JOIN owners ON pets.owner_id = owners.id
-        """
-        with CURSOR:
+        if CURSOR:
+            sql = """
+                SELECT pets.id, pets.name, pets.species, pets.breed, pets.birthdate,
+                owners.id AS owner_id, owners.name AS owner_name
+                FROM pets
+                INNER JOIN owners ON pets.owner_id = owners.id
+            """
             CURSOR.execute(sql)
             rows = CURSOR.fetchall()
             pets = []
             for row in rows:
-                pet = Pet(str(row[0]), row[1], row[2], row[3], row[4])
-                owner = Owner((row[6]), (row[5]))
+                pet_id = row[0]
+                name = row[1]
+                species = row[2]
+                breed = row[3]
+                # Check if birthdate is in the correct format
+                try:
+                    birthdate = datetime.strptime(row[4], '%Y-%m-%d')
+                except ValueError:
+                    # Handle the case where birthdate is not in the correct format
+                    print(f"Warning: Invalid birthdate format for pet with name {name}. Skipping this record.")
+                    continue
+                owner_id = row[5]
+                owner_name = row[6]
+                pet = Pet(pet_id, name, species, breed, birthdate)
+                owner = Owner(owner_id, owner_name)
                 pets.append((pet, owner))
             return pets
+        else:
+            print("Error: CURSOR is not properly initialized.")
+            return []
