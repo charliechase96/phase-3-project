@@ -201,7 +201,7 @@ class Pet:
             result = CONN.execute(query)
             pets = []
             for row in result:
-                pet = Pet(row['name'], row['species'], row['breed'], row['birthdate'], row['owner_id'])
-                owner = Owner(row['owner_name'], row['owner_id'])
+                pet = Pet(row[1], row[2], row[3], row[4], row[5])
+                owner = Owner(row[1], row[0])
                 pets.append((pet, owner))
             return pets
