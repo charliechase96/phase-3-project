@@ -179,7 +179,7 @@ def main():
                             if all_pets:
                                 print("\nAll Pets:")
                                 for pet, owner in all_pets:
-                                    print(f"Pet: {pet[0].id}.) {pet[0].name}; Owner: {pet[1].id}.) {pet[1].name}")
+                                    print(f"Pet: {pet.id}.) {pet.name}; Owner: {pet.id}.) {pet.name}")
                                 print()
 
                                 pet_choice = input("Now displaying all pets across all owners in the database. Select a pet to view that specific pet's owner information. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
