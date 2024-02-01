@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import sys
 from models.owner import Owner
 from models.pet import Pet
@@ -65,7 +63,8 @@ def main():
                         print("1. Create Pet")
                         print("2. Delete Pet")
                         print("3. Display All Pets for Selected Owner")
-                        print("4. Back to Previous Menu")
+                        print("4. Display All Pets for All Owners")
+                        print("5. Back to Previous Menu")
 
                         print(f"\nNow displaying the pet options for '{selected_owner.name}'. Enter a menu option number to navigate through the available pet options.\n")
 
@@ -175,7 +174,34 @@ def main():
                             else:
                                 print(f"\nNo pets found for owner '{selected_owner.name}'\n")
 
-                        elif pet_choice == '4':  # Back to Previous Menu
+                        elif pet_choice == '4':  # Display All Pets for All Owners
+                            all_pets = Pet.get_all_with_owners()
+                            if all_pets:
+                                print("\nAll Pets:")
+                                for pet, owner in all_pets:
+                                    print(f"Name: {pet.name}, Owner {owner.id}.) {owner.name}")
+                                print()
+
+                                pet_choice = input("Now displaying all pets across all owners in the database. Select a pet to view that specific pet's owner information. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
+
+                                if pet_choice.lower() == 'back':
+                                    continue
+
+                                try:
+                                    pet_choice = int(pet_choice)
+                                    if 1 <= pet_choice <= len(all_pets):
+                                        selected_pet, selected_owner = all_pets[pet_choice - 1]
+                                        print(f"\nNow displaying owner information for pet named '{selected_pet.name}':")
+                                        print(f"{selected_owner.id}.) {selected_owner.name}")
+                                    else:
+                                        print("\nInvalid choice. Please enter a valid pet number.\n")
+                                except ValueError:
+                                    print("\nInvalid input. Please enter a number.\n")
+
+                            else:
+                                print("\nNo pets found in the database.\n")
+
+                        elif pet_choice == '5':  # Back to Previous Menu
                             print("\nReturning to Previous Menu...\n")
                             break
 
