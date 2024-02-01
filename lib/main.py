@@ -182,15 +182,15 @@ def main():
                                     print(f"Pet: {pet.id}.) {pet.name}; Owner: {pet.id}.) {pet.name}")
                                 print()
 
-                                pet_choice = input("Now displaying all pets across all owners in the database. Select a pet to view that specific pet's owner information. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
+                                pet_selection = input("Now displaying all pets across all owners in the database. Select a pet to view that specific pet's owner information. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
 
-                                if pet_choice.lower() == 'back':
+                                if pet_selection.lower() == 'back':
                                     continue
 
                                 try:
-                                    pet_choice = int(pet_choice)
-                                    if 1 <= pet_choice <= len(all_pets):
-                                        selected_pet, selected_owner = all_pets[pet_choice - 1]
+                                    pet_selection = int(pet_selection)
+                                    if 1 <= pet_selection <= len(all_pets):
+                                        selected_pet, selected_owner = all_pets[pet_selection - 1]
                                         print(f"\nNow displaying owner information for pet named '{selected_pet.name}':")
                                         print(f"{selected_owner.id}.) {selected_owner.name}")
                                     else:
