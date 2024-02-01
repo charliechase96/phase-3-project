@@ -214,9 +214,16 @@ class Pet:
                     # Handle the case where birthdate is not in the correct format
                     print(f"Warning: Invalid birthdate format for pet with name {name}. Skipping this record.")
                     continue
+
+                print(f"pet_id: {pet_id}, type: {type(pet_id)}")
+                print(f"name: {name}, type: {type(name)}")
+                print(f"species: {species}, type: {type(species)}")
+                print(f"breed: {breed}, type: {type(breed)}")
+                print(f"birthdate: {birthdate}, type: {type(birthdate)}")
+
                 owner_id = row[5]
                 owner_name = row[6]
-                pet = Pet(pet_id, str(name), species, breed, birthdate)
+                pet = Pet(pet_id, name[:25], species, breed, birthdate)
                 owner = Owner(owner_id, owner_name)
                 pets.append((pet, owner))
             return pets
