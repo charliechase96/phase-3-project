@@ -204,6 +204,6 @@ class Pet:
             pets = []
             for row in result:
                 pet = Pet(str(row[0]), row[1], row[2], row[3], row[4])
-                owner = Owner(str(row[6]), (row[5]))
+                owner = Owner((row[6]), (row[5]))
                 pets.append((pet, owner))
             return pets
