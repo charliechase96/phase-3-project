@@ -228,3 +228,22 @@ class Pet:
         else:
             print("Error: CURSOR is not properly initialized.")
             return []
+
+    @classmethod
+    def find_by_owner_name(cls, owner_name):
+        """ Find pets by owner's name """
+        owner_id = Owner.find_id_by_name(owner_name)
+        if owner_id is None:
+            print("No owner found with the name:", owner_name)
+            return []
+
+        sql = """
+            SELECT * FROM pets WHERE owner_id = ?
+        """
+        CURSOR.execute(sql, (owner_id,))
+        rows = CURSOR.fetchall()
+        pets = []
+        for row in rows:
+            pet = cls(row[1], row[2], row[3], row[4], row[5], row[0])
+            pets.append(pet)
+        return pets

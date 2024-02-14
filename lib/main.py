@@ -92,7 +92,7 @@ def main():
                             print("\nInvalid pet name\n")
 
                     elif pet_choice == '3':  # Display All Pets for Selected Owner
-                        pets = Pet.find_by_owner_id(selected_owner.id)
+                        pets = Pet.find_by_owner_name(selected_owner.name)
                         if pets:
                             print(f"\nPets for owner '{selected_owner.name}':")
                             for pet in pets:
@@ -177,7 +177,7 @@ def main():
 
                             if pet_name_selection.lower() == 'back':
                                 continue
-                            
+
                         else:
                             print("\nNo pets found in the database.\n")
 

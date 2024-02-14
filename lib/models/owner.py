@@ -118,16 +118,15 @@ class Owner:
             return None
         
     @classmethod
-    def find_by_name(cls, name):
-        """ Find owners by name """
+    def find_id_by_name(cls, name):
+        """ Find owner ID by name """
         sql = """
-            SELECT * FROM owners WHERE name = ?
+            SELECT id FROM owners WHERE name = ?
         """
         CURSOR.execute(sql, (name,))
         row = CURSOR.fetchone()
         if row:
-            owner = cls(row[1])
-            return owner
+            return row[0]
         else:
             print("No owner found with the specified name.")
         return None
