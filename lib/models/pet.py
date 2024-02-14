@@ -180,6 +180,19 @@ class Pet:
             return None
         
     @classmethod
+    def find_by_name_owner(cls, pet_name, owner_id):
+        """Find a Pet instance by its name and owner's ID."""
+        sql = """
+            SELECT * FROM pets WHERE name = ? AND owner_id = ?
+        """
+        CURSOR.execute(sql, (pet_name, owner_id))
+        row = CURSOR.fetchone()
+        if row:
+            return cls(row[1], row[2], row[3], row[4], row[5], row[0])
+        else:
+            return None
+        
+    @classmethod
     def find_by_owner_id(cls, owner_id):
         """ Find a Pet instance by owner_id """
         sql = """
