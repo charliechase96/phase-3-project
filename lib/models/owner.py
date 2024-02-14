@@ -118,6 +118,20 @@ class Owner:
             return None
         
     @classmethod
+    def find_by_name(cls, name):
+        """ Find an Owner instance by name """
+        sql = """
+            SELECT * FROM owners WHERE name = ?
+        """
+        CURSOR.execute(sql, (name,))
+        row = CURSOR.fetchone()
+        if row:
+            owner_id, owner_name = row[0], row[1]
+            return cls(owner_name, owner_id)
+        else:
+            return None
+        
+    @classmethod
     def find_id_by_name(cls, name):
         """ Find owner ID by name """
         sql = """
