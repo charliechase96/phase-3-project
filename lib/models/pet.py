@@ -1,5 +1,5 @@
 from db.database import CONN, CURSOR
-from datetime import datetime
+from datetime import date
 from .owner import Owner
 
 class Pet:
@@ -17,7 +17,6 @@ class Pet:
 
     @name.setter
     def name(self, value):
-        print("Setting name to:", value)
         if not value:
             raise ValueError("Name cannot be empty.")
         if len(value) > 25:  # Maximum length
@@ -54,11 +53,11 @@ class Pet:
 
     @birthdate.setter
     def birthdate(self, value):
-        if isinstance(value, datetime):
+        if isinstance(value, date):
             self._birthdate = value
         else:
             try:
-                parsed_date = datetime.strptime(value, '%Y-%m-%d')
+                parsed_date = date.strptime(value, '%Y-%m-%d')
                 self._birthdate = parsed_date
             except ValueError:
                 raise ValueError("Birthdate should be in YYYY-MM-DD format.")
@@ -213,7 +212,7 @@ class Pet:
                 breed = row[3]
                 # Check if birthdate is in the correct format
                 try:
-                    birthdate = datetime.strptime(row[4], '%Y-%m-%d')
+                    birthdate = date.strptime(row[4], '%Y-%m-%d')
                 except ValueError:
                     # Handle the case where birthdate is not in the correct format
                     print(f"Warning: Invalid birthdate format for pet with name {name}. Skipping this record.")

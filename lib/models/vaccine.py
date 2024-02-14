@@ -1,5 +1,5 @@
 from db.database import CONN, CURSOR
-from datetime import datetime
+from datetime import date
 
 class Vaccine:
     def __init__(self, vaccine_type, date_administered, next_due_date, pet_id, id=None):
@@ -28,7 +28,7 @@ class Vaccine:
     @date_administered.setter
     def date_administered(self, value):
         try:
-            datetime.strptime(value, '%Y-%m-%d')  # Check if the date string matches the format YYYY-MM-DD
+            date.strptime(value, '%Y-%m-%d')  # Check if the date string matches the format YYYY-MM-DD
         except ValueError:
             raise ValueError("Date administered should be in YYYY-MM-DD format.")
         self._date_administered = value
@@ -40,7 +40,7 @@ class Vaccine:
     @next_due_date.setter
     def next_due_date(self, value):
         try:
-            datetime.strptime(value, '%Y-%m-%d')  # Check if the date string matches the format YYYY-MM-DD
+            date.strptime(value, '%Y-%m-%d')  # Check if the date string matches the format YYYY-MM-DD
         except ValueError:
             raise ValueError("Next due date should be in YYYY-MM-DD format.")
         self._next_due_date = value
