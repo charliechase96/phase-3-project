@@ -222,7 +222,7 @@ class Pet:
                 owner_id = row[5]
                 owner_name = row[6]
                 pet = Pet(name, species, breed, birthdate, owner_id, pet_id)
-                owner = Owner(owner_id, owner_name)
+                owner = Owner(owner_name, owner_id)
                 pets.append((pet, owner))
             return pets
         else:
