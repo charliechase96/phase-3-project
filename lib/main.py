@@ -173,19 +173,11 @@ def main():
                                 print(f"Pet: {pet.name}; Owner: {owner.name}")
                             print()
 
-                            pet_name_selection = input("Now displaying all pets across all owners in the database. Select a pet to view that specific pet's owner information. Enter 'back' to return to the previous menu.\n\nEnter pet's name: ")
+                            pet_name_selection = input("Now displaying all pets across all owners in the database. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
 
                             if pet_name_selection.lower() == 'back':
                                 continue
-
-                            selected_pet = Pet.find_by_name(pet_name_selection)
-                            if selected_pet:
-                                selected_owner = Owner.find_by_id(selected_pet.owner_id)
-                                print(f"\nNow displaying owner information for pet named '{selected_pet.name}':")
-                                print(f"{selected_owner.name}")
-                            else:
-                                print("\nPet not found. Please enter a valid pet's name.\n")
-
+                            
                         else:
                             print("\nNo pets found in the database.\n")
 
