@@ -54,12 +54,15 @@ class Pet:
 
     @birthdate.setter
     def birthdate(self, value):
-        try:
-            datetime.strptime(value, '%Y-%m-%d')  # Check if the date string matches the format YYYY-MM-DD
-        except ValueError:
-            raise ValueError("Birthdate should be in YYYY-MM-DD format.")
+        if isinstance(value, datetime):
+            self._birthdate = value
+        else:
+            try:
+                parsed_date = datetime.strptime(value, '%Y-%m-%d')
+                self._birthdate = parsed_date
+            except ValueError:
+                raise ValueError("Birthdate should be in YYYY-MM-DD format.")
 
-        self._birthdate = value
 
     @property
     def owner_id(self):
