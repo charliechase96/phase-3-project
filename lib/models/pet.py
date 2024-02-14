@@ -57,7 +57,7 @@ class Pet:
             self._birthdate = value
         else:
             try:
-                parsed_date = date.strptime(value, '%Y-%m-%d')
+                parsed_date = date.strftime(value, '%Y-%m-%d')
                 self._birthdate = parsed_date
             except ValueError:
                 raise ValueError("Birthdate should be in YYYY-MM-DD format.")
@@ -212,7 +212,7 @@ class Pet:
                 breed = row[3]
                 # Check if birthdate is in the correct format
                 try:
-                    birthdate = date.strptime(row[4], '%Y-%m-%d')
+                    birthdate = date.strftime(row[4], '%Y-%m-%d')
                 except ValueError:
                     # Handle the case where birthdate is not in the correct format
                     print(f"Warning: Invalid birthdate format for pet with name {name}. Skipping this record.")
