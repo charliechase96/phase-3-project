@@ -218,7 +218,7 @@ class Pet:
 
                 owner_id = row[5]
                 owner_name = row[6]
-                pet = Pet(pet_id, name[:25], species, breed, birthdate)
+                pet = Pet(name, species, breed, birthdate, owner_id, pet_id)
                 owner = Owner(owner_id, owner_name)
                 pets.append((pet, owner))
             return pets
