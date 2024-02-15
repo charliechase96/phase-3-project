@@ -143,7 +143,7 @@ def main():
                                         print("\nInvalid vaccine name\n")
 
                                 elif vaccine_choice == '3':  # Display All Vaccines for Selected Pet
-                                    vaccines = Vaccine.find_by_pet_id(selected_pet.id)
+                                    vaccines = Vaccine.find_by_pet_name(selected_pet.name)
                                     if vaccines:
                                         print(f"\nVaccines for pet '{selected_pet.name}':")
                                         for vaccine in vaccines:

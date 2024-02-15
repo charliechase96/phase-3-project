@@ -180,8 +180,13 @@ class Pet:
             return None
         
     @classmethod
-    def find_by_name_owner(cls, pet_name, owner_id):
+    def find_by_name_owner(cls, pet_name, owner_name):
         """Find a Pet instance by its name and owner's ID."""
+        owner_id = Owner.find_id_by_name(owner_name)
+        if owner_id is None:
+            print("No owner found with the name: ", owner_name)
+            return None
+        
         sql = """
             SELECT * FROM pets WHERE name = ? AND owner_id = ?
         """

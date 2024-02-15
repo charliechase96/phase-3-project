@@ -161,12 +161,14 @@ class Vaccine:
             return None
 
     @classmethod
-    def find_by_pet_id(cls, pet_id):
-        """ Find vaccines in the database by pet_id """
+    def find_by_pet_name(cls, pet_name):
+        """ Find vaccines in the database by pet's name """
         sql = """
-            SELECT * FROM vaccines WHERE pet_id = ?
+            SELECT * FROM vaccines
+            JOIN pets ON vaccines.pet_id = pet.id
+            WHERE pets.name = ?
         """
-        CURSOR.execute(sql, (pet_id,))
+        CURSOR.execute(sql, (pet_name,))
         rows = CURSOR.fetchall()
         vaccines = []
         for row in rows:
