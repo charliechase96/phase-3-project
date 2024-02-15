@@ -165,7 +165,7 @@ class Vaccine:
         """ Find vaccines in the database by pet's name """
         sql = """
             SELECT * FROM vaccines
-            JOIN pets ON vaccines.pet_id = pet.id
+            JOIN pets ON vaccines.pet_id = pets.id
             WHERE pets.name = ?
         """
         CURSOR.execute(sql, (pet_name,))
