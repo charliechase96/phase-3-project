@@ -104,7 +104,7 @@ def main():
                             if pet_name_choice.lower() == 'back':
                                 continue
 
-                            selected_pet = Pet.find_by_name_owner(pet_name_choice, selected_owner.id)
+                            selected_pet = Pet.find_by_name_and_owner_id(pet_name_choice, selected_owner.id)
                             if not selected_pet:
                                 print("\nPet not found. Please enter a valid pet's name.\n")
                                 continue

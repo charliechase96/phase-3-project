@@ -143,4 +143,4 @@ class Owner:
             return row[0]
         else:
             print("No owner found with the specified name.")
-        return None
+            return None
