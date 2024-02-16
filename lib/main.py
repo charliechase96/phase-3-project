@@ -82,7 +82,7 @@ def main():
                     elif pet_choice == '2':  # Delete Pet
                         pet_name = input("\nEnter pet name to delete: ")
                         try:
-                            pet = Pet.find_by_name_owner(pet_name, selected_owner.id)
+                            pet = Pet.find_by_name_and_owner_id(pet_name, selected_owner.id)
                             if pet:
                                 pet.delete()
                                 print(f"\nPet '{pet_name}' deleted successfully\n")
