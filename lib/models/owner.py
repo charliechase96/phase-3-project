@@ -1,5 +1,5 @@
 from db.database import CONN, CURSOR
-from .pet import Pet
+import models.pet as pet_module
 
 class Owner:
     def __init__(self, name, id=None):
@@ -67,7 +67,7 @@ class Owner:
 
         if row:
             # If owner exists, first delete all pets belonging to this owner
-            Pet.delete_by_owner_id(self.id)
+            pet_module.delete_by_owner_id(self.id)
 
             # Then, delete the owner
             sql_delete = """
