@@ -134,7 +134,7 @@ def main():
                                 elif vaccine_choice == '2':  # Delete Vaccine
                                     vaccine_name = input("\nEnter vaccine name to delete: ")
                                     try:
-                                        vaccine = Vaccine.find_by_name_pet(vaccine_name, selected_pet.id)
+                                        vaccine = Vaccine.find_by_type_and_pet_id(vaccine_name, selected_pet.id)
                                         if vaccine:
                                             vaccine.delete()
                                             print(f"\nVaccine '{vaccine_name}' deleted successfully\n")
