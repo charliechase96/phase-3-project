@@ -99,7 +99,7 @@ def main():
                                 print(f"Name: {pet.name}, Species: {pet.species}, Breed: {pet.breed}, Birthdate: {pet.birthdate}")
                             print()
 
-                            pet_name_choice = input(f"Now displaying all pets for owner named {selected_owner.name}. Enter pet name to display vaccine options for that pet. Enter 'back' to return to the previous menu.\n\nEnter pet's name: ")
+                            pet_name_choice = input(f"Now displaying all pets for owner named {selected_owner.name}. Enter pet name to display vaccine options for that pet. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
 
                             if pet_name_choice.lower() == 'back':
                                 continue
@@ -187,7 +187,7 @@ def main():
                                 print(f"Pet: {pet.name}; Owner: {owner.name}")
                             print()
 
-                            pet_name_selection = input("Enter the name of a pet to view vaccine options, or type 'back' to return to the previous menu.\n\nEnter pet's name: ")
+                            pet_name_selection = input("Enter the name of a pet to view vaccine options, or type 'back' to return to the previous menu.\n\nEnter your choice: ")
 
                             if pet_name_selection.lower() == 'back':
                                 continue
