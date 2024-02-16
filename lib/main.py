@@ -26,17 +26,17 @@ def main():
                 print(f"\nError: {e}\n")
 
         elif choice == '2':  # Delete Owner
-            owner_id = input("\nEnter owner list number to delete: ")
+            owner_name = input("\nEnter the name of the owner to delete: ")
             try:
-                owner_id = int(owner_id)
-                owner = Owner.find_by_id(owner_id)
+                owner = Owner.find_by_name(owner_name)
                 if owner:
                     owner.delete()
                     print(f"\nOwner '{owner.name}' deleted successfully\n")
                 else:
-                    print(f"\nOwner not found\n")
-            except ValueError:
-                print("\nInvalid owner list number\n")
+                    print("\nOwner not found\n")
+            except ValueError as e:
+                print(f"\nError: {e}\n")
+
 
         elif choice == '3':  # Display All Owners
             owners = Owner.get_all()
