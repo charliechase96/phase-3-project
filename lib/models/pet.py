@@ -260,3 +260,12 @@ class Pet:
             pet = cls(row[1], row[2], row[3], row[4], row[5], row[0])
             pets.append(pet)
         return pets
+
+    @classmethod
+    def delete_by_owner_id(cls, owner_id):
+        """ Delete all pets belonging to a specific owner """
+        sql = """
+            DELETE FROM pets WHERE owner_id = ?
+        """
+        CURSOR.execute(sql, (owner_id,))
+        CONN.commit()

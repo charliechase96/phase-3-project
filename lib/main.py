@@ -31,9 +31,9 @@ def main():
                 owner = Owner.find_by_name(owner_name)
                 if owner:
                     owner.delete()
-                    print(f"\nOwner '{owner.name}' deleted successfully\n")
+                    print(f"Owner with name {owner_name} and all associated pets deleted successfully.")
                 else:
-                    print("\nOwner not found\n")
+                    print(f"\nOwner with name '{owner_name}' not found.\n")
             except ValueError as e:
                 print(f"\nError: {e}\n")
 

@@ -1,4 +1,5 @@
 from db.database import CONN, CURSOR
+from pet import Pet
 
 class Owner:
     def __init__(self, name, id=None):
@@ -56,21 +57,24 @@ class Owner:
         self.id = CURSOR.lastrowid
     
     def delete(self):
-        """ Delete the owner from the database """
+        """ Delete the owner and all their associated pets from the database """
+        # First, check if the owner exists
         sql_select = """
             SELECT id FROM owners WHERE id = ?
         """
         CURSOR.execute(sql_select, (self.id,))
         row = CURSOR.fetchone()
+
         if row:
+            # If owner exists, first delete all pets belonging to this owner
+            Pet.delete_by_owner_id(self.id)
+
+            # Then, delete the owner
             sql_delete = """
                 DELETE FROM owners WHERE id = ?
             """
             CURSOR.execute(sql_delete, (self.id,))
             CONN.commit()
-            print(f"Owner with ID {self.id} deleted successfully")
-        else:
-            print(f"No owner found with ID {self.id}")
 
     @classmethod
     def create(cls, name):
