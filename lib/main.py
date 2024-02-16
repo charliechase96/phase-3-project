@@ -187,13 +187,83 @@ def main():
                                 print(f"Pet: {pet.name}; Owner: {owner.name}")
                             print()
 
-                            pet_name_selection = input("Now displaying all pets across all owners in the database. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
+                            pet_name_selection = input("Enter the name of a pet to view vaccine options, or type 'back' to return to the previous menu.\n\nEnter pet's name: ")
 
                             if pet_name_selection.lower() == 'back':
                                 continue
 
+                            selected_pet = Pet.find_by_name(pet_name_selection)
+                            if selected_pet:
+                                while True:
+                                    print("\nVaccine Menu:")
+                                    print("1. Create Vaccine")
+                                    print("2. Delete Vaccine")
+                                    print("3. Display All Vaccines for Selected Pet")
+                                    print("4. Display All Vaccines for All Pets")
+                                    print("5. Back to Previous Menu")
+
+                                    vaccine_choice = input(f"\nEnter your choice for pet '{selected_pet.name}': ")
+
+                                    if vaccine_choice == '1':  # Create Vaccine
+                                        vaccine_type = input("\nEnter vaccine type: ")
+                                        date_administered = input("Enter date administered (YYYY-MM-DD): ")
+                                        next_due_date = input("Enter next due date (YYYY-MM-DD): ")
+                                        try:
+                                            vaccine = Vaccine.create(vaccine_type, date_administered, next_due_date, selected_pet.id)
+                                            print(f"\nVaccine added for pet '{selected_pet.name}'\n")
+                                        except ValueError as e:
+                                            print(f"\nError: {e}\n")
+
+                                    elif vaccine_choice == '2':  # Delete Vaccine
+                                        vaccine_name = input("\nEnter vaccine name to delete: ")
+                                        try:
+                                            vaccine = Vaccine.find_by_name_pet(vaccine_name, selected_pet.id)
+                                            if vaccine:
+                                                vaccine.delete()
+                                                print(f"\nVaccine '{vaccine_name}' deleted successfully\n")
+                                            else:
+                                                print(f"\nVaccine '{vaccine_name}' not found for pet '{selected_pet.name}'\n")
+                                        except ValueError:
+                                            print("\nInvalid vaccine name\n")
+
+                                    elif vaccine_choice == '3':  # Display All Vaccines for Selected Pet
+                                        vaccines = Vaccine.find_by_pet_name(selected_pet.name)
+                                        if vaccines:
+                                            print(f"\nVaccines for pet '{selected_pet.name}':")
+                                            for vaccine in vaccines:
+                                                print(f"Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}")
+                                            print()
+
+                                            input(f"\nNow displaying all vaccines for pet named {selected_pet.name}. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
+
+                                        else:
+                                            print(f"\nNo vaccines found for pet '{selected_pet.name}'\n")
+
+                                    elif vaccine_choice == '4':  # Display All Vaccines for All Pets
+                                        all_vaccines = Vaccine.get_all_with_pets()
+                                        if all_vaccines:
+                                            print("\nAll Vaccines for All Pets:")
+                                            for vaccine, pet_name in all_vaccines:
+                                                print(f"Pet: {pet_name}; Vaccine: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}")
+                                            print()
+
+                                            input(f"\nNow displaying all vaccines for all pets. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
+
+                                        else:
+                                            print("\nNo vaccines found in the database.\n")
+
+                                    elif vaccine_choice == '5':  # Back to Previous Menu
+                                        break  # Exit the vaccine menu
+
+                                    else:
+                                        print("\nInvalid choice. Please enter a valid option.\n")
+
+                            else:
+                                print("\nPet not found. Please enter a valid pet's name.\n")
+
                         else:
                             print("\nNo pets found in the database.\n")
+
 
                     elif pet_choice == '5':  # Back to Previous Menu
                         print("\nReturning to Previous Menu...\n")
