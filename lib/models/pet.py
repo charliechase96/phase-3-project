@@ -235,7 +235,7 @@ class Pet:
                 owner_id = row[5]
                 owner_name = row[6]
                 pet = Pet(name, species, breed, birthdate, owner_id, pet_id)
-                owner = owner_module(owner_name, owner_id)
+                owner = owner_module.Owner(owner_name, owner_id)
                 pets.append((pet, owner))
             return pets
         else:
@@ -245,7 +245,7 @@ class Pet:
     @classmethod
     def find_by_owner_name(cls, owner_name):
         """ Find pets by owner's name """
-        owner_id = owner_module.find_id_by_name(owner_name)
+        owner_id = owner_module.Owner.find_id_by_name(owner_name)
         if owner_id is None:
             print("No owner found with the name:", owner_name)
             return []

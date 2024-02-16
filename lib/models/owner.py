@@ -67,7 +67,7 @@ class Owner:
 
         if row:
             # If owner exists, first delete all pets belonging to this owner
-            pet_module.delete_by_owner_id(self.id)
+            pet_module.Pet.delete_by_owner_id(self.id)
 
             # Then, delete the owner
             sql_delete = """
