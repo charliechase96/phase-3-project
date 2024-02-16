@@ -1,5 +1,5 @@
 from db.database import CONN, CURSOR
-from models.pet import Pet
+from .pet import Pet
 
 class Owner:
     def __init__(self, name, id=None):
