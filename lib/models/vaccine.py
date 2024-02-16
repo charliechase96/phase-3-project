@@ -175,3 +175,20 @@ class Vaccine:
             vaccine = cls(row[1], row[2], row[3], row[4], row[0])
             vaccines.append(vaccine)
         return vaccines
+    
+    @classmethod
+    def get_all_with_pets(cls):
+        """ Retrieve all Vaccine instances with their respective Pet names from the database """
+        sql = """
+            SELECT vaccines.*, pets.name 
+            FROM vaccines 
+            JOIN pets ON vaccines.pet_id = pets.id
+        """
+        CURSOR.execute(sql)
+        rows = CURSOR.fetchall()
+        vaccines_with_pets = []
+        for row in rows:
+            vaccine = cls(row[1], row[2], row[3], row[4], row[0])
+            pet_name = row[5]
+            vaccines_with_pets.append((vaccine, pet_name))
+        return vaccines_with_pets

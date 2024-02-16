@@ -114,7 +114,8 @@ def main():
                                 print("1. Create Vaccine")
                                 print("2. Delete Vaccine")
                                 print("3. Display All Vaccines for Selected Pet")
-                                print("4. Back to Previous Menu")
+                                print("4. Display All Vaccines for All Pets")
+                                print("5. Back to Previous Menu")
 
                                 print(f"\nNow displaying the vaccine options for '{selected_pet.name}'. Enter a menu option number to navigate through the available vaccine options.\n")
 
@@ -150,12 +151,25 @@ def main():
                                             print(f"Type: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}")
                                         print()
 
-                                        input(f"\nNow displaying all vaccines for pet named {selected_pet.name}. Enter 'back' to return to the previous menu.\n\nEnter any key to continue: ")
+                                        input(f"\nNow displaying all vaccines for pet named {selected_pet.name}. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
 
                                     else:
                                         print(f"\nNo vaccines found for pet '{selected_pet.name}'\n")
+                                
+                                elif vaccine_choice == '4':  # Display All Vaccines for All Pets
+                                    all_vaccines = Vaccine.get_all_with_pets()
+                                    if all_vaccines:
+                                        print("\nAll Vaccines for All Pets:")
+                                        for vaccine, pet_name in all_vaccines:
+                                            print(f"Pet: {pet_name}; Vaccine: {vaccine.vaccine_type}, Date Administered: {vaccine.date_administered}, Next Due Date: {vaccine.next_due_date}")
+                                        print()
 
-                                elif vaccine_choice == '4':  # Back to Previous Menu
+                                        input(f"\nNow displaying all vaccines for all pets. Enter 'back' to return to the previous menu.\n\nEnter your choice: ")
+
+                                    else:
+                                        print("\nNo vaccines found in the database.\n")
+
+                                elif vaccine_choice == '5':  # Back to Previous Menu
                                     print("\nReturning to Previous Menu...\n")
                                     break
 
